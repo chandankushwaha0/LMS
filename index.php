@@ -18,7 +18,7 @@ include_once("includes/header.php");
         </div>
         <div class="mb-3 d-flex justify-content-between">
             <a href="">Forgot?</a>
-            <a href="login.php">Register new</a>
+            <a href="register.php">Register new</a>
         </div>
         <div class="d-grid gap-2">
             <button class="btn btn-dark" type="button">Sign in</button>
