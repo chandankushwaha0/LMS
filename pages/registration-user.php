@@ -1,9 +1,10 @@
 <?php
-include_once("config.php");
+include_once ("config.php");
 
-include_once("./DataValidator.php");
+include_once ("./DataValidator.php");
 
-if(isset($_POST['add'])) {
+// $next_student_id = 1;
+if (isset($_POST['add'])) {
     // Create a new instance of DataValidator
     $dataValidator = new yetilms\DataValidator($conn); // assuming $conn is your database connection
 
@@ -14,15 +15,17 @@ if(isset($_POST['add'])) {
     $email = $dataValidator->validateEmail($_POST['email']);
     $name = $dataValidator->validateData($_POST['name']);
 
+    
+
     $sql = "INSERT INTO all_student(student_id, faculty, semester, email, name ) 
-            VALUES ( '{$student_id}', '{$fname}', '{$faculty}', '{$semester}', '{$email}', '{$name}')";
+            VALUES ( '{$student_id}', '{$faculty}', '{$semester}', '{$email}', '{$name}')";
 
     $result = mysqli_query($conn, $sql);
 
-    if($result) {
+    if ($result) {
         ?>
         <script>
-            window.addEventListener('load', function() {
+            window.addEventListener('load', function () {
                 messagePopupHandle('Added Successfully');
             })
         </script>
@@ -30,7 +33,7 @@ if(isset($_POST['add'])) {
     } else {
         ?>
         <script>
-            window.addEventListener('load', function() {
+            window.addEventListener('load', function () {
                 messagePopupHandle('Added Failed!!!');
             })
         </script>
@@ -71,7 +74,8 @@ if(isset($_POST['add'])) {
         cursor: pointer;
         background-color: #6ED649;
     }
-    .popup-content .checkbtn{
+
+    .popup-content .checkbtn {
         margin-top: -60px;
         border-radius: 50%;
         padding: 10px 18px;
@@ -84,19 +88,29 @@ if(isset($_POST['add'])) {
     <div class="popup-content">
         <button class="btn checkbtn"><i class="fa-solid fa-check"></i></button>
         <h1 id="thankyou" class="text-dark">Thank You!</h1>
-        <h5 id="message"  class="py-3 message"></h5>
+        <h5 id="message" class="py-3 message"></h5>
         <div class="d-grid gap-2 my-3">
             <button class="btn popupOk" id="popupOk" name="" type="">OK</button>
         </div>
 
-        
+
     </div>
 </div>
 <form action="" method="POST">
+    <?php 
+// Fetch the maximum student ID from the database
+$sql_max_student_id = "SELECT MAX(student_id) AS max_student_id FROM all_student";
+$result_max_student_id = mysqli_query($conn, $sql_max_student_id);
+$row_max_student_id = mysqli_fetch_assoc($result_max_student_id);
+$next_student_id = $row_max_student_id['max_student_id'] + 1;
+
+?>
     <div class="d-flex justify-content-between">
         <div class="mb-3">
-            <label for="student_id" class="form-label">Student ID <span class="text-primary">(use this id for identify students)</span></label>
-            <input name="student_id" value="1" type="text" readonly class="form-control" id="student_id" required>
+            <label for="student_id" class="form-label">Student ID <span class="text-primary">(use this id for identify
+                    students)</span></label>
+            <input name="student_id" value="<?php echo $next_student_id; ?>" type="text" readonly class="form-control"
+                id="student_id" required>
         </div>
         <div class="mb-3">
             <label for="chapter" class="form-label">Choose Faculty <span>*</span></label>
@@ -131,4 +145,4 @@ if(isset($_POST['add'])) {
     </div>
 </form>
 
-<?php 
+<?php
