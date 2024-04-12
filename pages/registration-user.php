@@ -1,20 +1,21 @@
 <?php
 include_once("config.php");
 
+include_once("./DataValidator.php");
+
 if(isset($_POST['add'])) {
-    if(isset($_POST['email'])) {
-        $email = mysqli_real_escape_string($conn, $_POST['email']);
-    }
+    // Create a new instance of DataValidator
+    $dataValidator = new yetilms\DataValidator($conn); // assuming $conn is your database connection
 
-    $faculty = mysqli_real_escape_string($conn, $_POST['faculty']);
-    $semester = mysqli_real_escape_string($conn, $_POST['semester']);
-    $sub_name = mysqli_real_escape_string($conn, $_POST['sub_name']);
-    $chapter = mysqli_real_escape_string($conn, $_POST['chapter']);
-    $heading = mysqli_real_escape_string($conn, $_POST['heading']);
-    $content = mysqli_real_escape_string($conn, $_POST['content']);
+    // Validate and sanitize form data
+    $student_id = $dataValidator->validateData($_POST['student_id']);
+    $faculty = $dataValidator->validateData($_POST['faculty']);
+    $semester = $dataValidator->validateData($_POST['semester']);
+    $email = $dataValidator->validateEmail($_POST['email']);
+    $name = $dataValidator->validateData($_POST['name']);
 
-    $sql = "INSERT INTO task(email, faculty, semester, sub_name, chapter_no, heading, content) 
-            VALUES ('{$email}', '{$faculty}', '{$semester}', '{$sub_name}', '{$chapter}', '{$heading}', '{$content}')";
+    $sql = "INSERT INTO all_student(student_id, faculty, semester, email, name ) 
+            VALUES ( '{$student_id}', '{$fname}', '{$faculty}', '{$semester}', '{$email}', '{$name}')";
 
     $result = mysqli_query($conn, $sql);
 
@@ -22,7 +23,7 @@ if(isset($_POST['add'])) {
         ?>
         <script>
             window.addEventListener('load', function() {
-                messagePopupHandle('Your content added successfully!!!');
+                messagePopupHandle('Added Successfully');
             })
         </script>
         <?php
@@ -30,7 +31,7 @@ if(isset($_POST['add'])) {
         ?>
         <script>
             window.addEventListener('load', function() {
-                messagePopupHandle('<div class="text-danger">Your content is not added!!!</div>');
+                messagePopupHandle('Added Failed!!!');
             })
         </script>
         <?php
@@ -93,7 +94,10 @@ if(isset($_POST['add'])) {
 </div>
 <form action="" method="POST">
     <div class="d-flex justify-content-between">
-        <input type="email" hidden value="" name="email">
+        <div class="mb-3">
+            <label for="student_id" class="form-label">Student ID <span class="text-primary">(use this id for identify students)</span></label>
+            <input name="student_id" value="1" type="text" readonly class="form-control" id="student_id" required>
+        </div>
         <div class="mb-3">
             <label for="chapter" class="form-label">Choose Faculty <span>*</span></label>
             <select name="faculty" class="form-select" aria-label="Default select example" required>
@@ -114,26 +118,13 @@ if(isset($_POST['add'])) {
             </select>
         </div>
         <div class="mb-3">
-            <label for="chapter" class="form-label">Choose Subject Name <span>*</span></label>
-            <select name="sub_name" class="form-select" aria-label="Default select example" required>
-                <option selected disabled>Select Subject</option>
-                <option value="English">English</option>
-                <option value="Math">Math</option>
-                <option value="Nepali">Nepali</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="chapter" class="form-label">Chapter No. <span>*</span></label>
-            <input name="chapter" type="number" class="form-control" id="chapter" required>
+            <label for="email" class="form-label">Email <span>*</span></label>
+            <input name="email" type="text" class="form-control" id="email" required>
         </div>
     </div>
     <div class="mb-3">
-        <label for="heading" class="form-label">Heading <span>*</span></label>
-        <input name="heading" type="text" class="form-control" id="heading" required>
-    </div>
-    <div class="form-floating">
-        <textarea name="content" class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 300px"></textarea>
-        <label for="floatingTextarea2">Comments</label>
+        <label for="name" class="form-label">Name <span>*</span></label>
+        <input name="name" type="text" class="form-control" id="name" required>
     </div>
     <div class="d-grid gap-2 my-3">
         <button class="btn btn-dark" name="add" type="submit">ADD</button>

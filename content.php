@@ -41,7 +41,11 @@
             case 'add-content':
                 include_once("pages/add-content.php");
                 break;
-            // Add more cases if needed
+
+            case 'registration-user':
+                include_once("pages/registration-user.php");
+                break;
+            
             default:
                 // Handle invalid item parameter
                 break;

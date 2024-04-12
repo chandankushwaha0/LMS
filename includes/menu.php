@@ -6,8 +6,10 @@
     <div class="menu-list">
         <ul>
             <li>
-                <!-- Replace the following link with a sanitized absolute URL -->
                 <a href="./dashboard.php?item=add-content">Add New</a>
+            </li>
+            <li>
+                <a href="./dashboard.php?item=registration-user">Registration Users</a>
             </li>
         </ul>
     </div>

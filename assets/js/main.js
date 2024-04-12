@@ -49,6 +49,24 @@ function handleHideShowPassword() {
     });
 }
 
+
+function messagePopupHandle(msg) {
+    const popups = document.querySelectorAll(".popup");
+    popups.forEach(function( popup) {
+            popup.classList.add('d-block');
+            popup.classList.remove('d-none');
+            document.getElementById('message').innerText = msg;
+            const popupOks = document.querySelectorAll('.popupOk');
+            popupOks.forEach(function( popupOk ) {
+                popupOk.addEventListener('click', function() {
+                    popup.classList.remove('d-block');
+                    popup.classList.add('d-none');
+                })
+            })
+        })
+}
+
 window.addEventListener("load", function() {
-    handleHideShowPassword();
+    // handleHideShowPassword();
+    // messagePopupHandle(msg);
 })
