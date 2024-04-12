@@ -2,7 +2,7 @@
 
 include_once("./includes/header.php");
 include_once("config.php");
-include_once("function.php");
+include_once("DataValidator.php");
 
 if (isset($_POST['register'])) {
     // Create a new instance of DataValidator
@@ -45,7 +45,6 @@ if (isset($_POST['register'])) {
         // Handle error...
     }
 
-    // Continue with other form data validations...
 }
 
 

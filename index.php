@@ -1,6 +1,8 @@
 <?php 
 
-include_once("includes/header.php");
+$include = "includes";
+
+include_once( $include . "/header.php" );
 
 ?>
 
@@ -28,5 +30,5 @@ include_once("includes/header.php");
         </div>
 
 <?php
-include_once("includes/footer.php");
+include_once( $include . "/footer.php" );
 ?>

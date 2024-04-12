@@ -1,7 +1,7 @@
 <div class="top-menu d-flex justify-content-around">
     <div>
         <form class="">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         </form>
     </div>
     <div class="icon">
@@ -29,25 +29,23 @@
     </div>
 </div>
 
-
 <div class="all-content">
+    <?php 
 
+    include_once("functions.php");
 
-<?php 
+    if (isset($_GET['item'])) {
+        $item = sanitize_url($_GET['item']);
 
-
-if( isset( $_GET['item'] ) ) {
-    $item = $_GET['item'];
-
-
-    switch( $item ) {
-        case 'add-content':
-            include_once("pages/add-content.php");
-            break;
+        switch ($item) {
+            case 'add-content':
+                include_once("pages/add-content.php");
+                break;
+            // Add more cases if needed
+            default:
+                // Handle invalid item parameter
+                break;
+        }
     }
-
-}
-
-?>
-
+    ?>
 </div>

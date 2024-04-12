@@ -4,9 +4,10 @@
         <hr>
     </div>
     <div class="menu-list">
-        <ul class="">
+        <ul>
             <li>
-                <a class="" href="?item=add-content">Add New</a>
+                <!-- Replace the following link with a sanitized absolute URL -->
+                <a href="./dashboard.php?item=add-content">Add New</a>
             </li>
         </ul>
     </div>
