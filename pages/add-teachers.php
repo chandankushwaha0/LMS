@@ -122,23 +122,7 @@ if ($uploadOk == 0) {
         font-size: 30px;
         color: #fff;
     }
-</style>
 
-<div class="popup d-none ">
-    <div class="popup-content">
-        <button class="btn checkbtn"><i class="fa-solid fa-check"></i></button>
-        <h1 id="thankyou" class="text-dark">Thank You!</h1>
-        <h5 id="message" class="py-3 message"></h5>
-        <div class="d-grid gap-2 my-3">
-            <button class="btn popupOk" id="popupOk" name="" type="">OK</button>
-        </div>
-
-
-    </div>
-</div>
-
-
-<style>
     .image-container {
         border: 2px solid #ccc;
         padding: 10px;
@@ -165,6 +149,22 @@ if ($uploadOk == 0) {
         padding: 5px;
         text-align: center;
     }
+</style>
+
+<div class="popup d-none ">
+    <div class="popup-content">
+        <button class="btn checkbtn"><i class="fa-solid fa-check"></i></button>
+        <h1 id="thankyou" class="text-dark">Thank You!</h1>
+        <h5 id="message" class="py-3 message"></h5>
+        <div class="d-grid gap-2 my-3">
+            <button class="btn popupOk" id="popupOk" name="" type="">OK</button>
+        </div>
+
+
+    </div>
+</div>
+
+
 </style>
 
 <form action="" method="POST" enctype="multipart/form-data">
