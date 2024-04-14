@@ -46,6 +46,18 @@
                 include_once("pages/registration-user.php");
                 break;
             
+            case 'registered-students':
+                include_once("pages/all-student.php");
+                break;
+
+            case 'add-teachers':
+                include_once("pages/add-teachers.php");
+                break;
+            
+            case 'all-teachers':
+                include_once("pages/all-teachers.php");
+                break;
+                
             default:
                 // Handle invalid item parameter
                 break;

@@ -132,3 +132,15 @@ hr{
 
 
 
+
+
+.edit-form{
+    position: absolute;
+    background-color: red;
+    top: 0;
+    /* left: 0; */
+    /* right: 0; */
+    bottom: 0;
+    width: 70%;
+    z-index: 999;
+}

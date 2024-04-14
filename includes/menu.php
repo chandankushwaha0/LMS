@@ -9,7 +9,16 @@
                 <a href="./dashboard.php?item=add-content">Add New</a>
             </li>
             <li>
-                <a href="./dashboard.php?item=registration-user">Registration Users</a>
+                <a href="./dashboard.php?item=registration-user">New Registration</a>
+            </li>
+            <li>
+                <a href="./dashboard.php?item=registered-students">Registered Students</a>
+            </li>
+            <li>
+                <a href="./dashboard.php?item=add-teachers">Add Teachers</a>
+            </li>
+            <li>
+                <a href="./dashboard.php?item=all-teachers">Teachers</a>
             </li>
         </ul>
     </div>
