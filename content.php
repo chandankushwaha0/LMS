@@ -30,34 +30,42 @@
 </div>
 
 <div class="all-content">
-    <?php 
+    <?php
 
-    include_once("functions.php");
+    include_once ("functions.php");
 
     if (isset($_GET['item'])) {
         $item = sanitize_url($_GET['item']);
 
         switch ($item) {
             case 'add-content':
-                include_once("pages/add-content.php");
+                include_once ("pages/add-content.php");
                 break;
 
             case 'registration-user':
-                include_once("pages/registration-user.php");
+                include_once ("pages/registration-user.php");
                 break;
-            
+
             case 'registered-students':
-                include_once("pages/all-student.php");
+                include_once ("pages/all-student.php");
                 break;
 
             case 'add-teachers':
-                include_once("pages/add-teachers.php");
+                include_once ("pages/add-teachers.php");
                 break;
-            
+
             case 'all-teachers':
-                include_once("pages/all-teachers.php");
+                include_once ("pages/all-teachers.php");
                 break;
-                
+
+            case 'edit-teachers':
+                include_once ("edit_page/edit-teachers.php");
+                break;
+
+            case 'delete-teachers':
+                include_once ("delete/delete-teachers.php");
+                break;
+
             default:
                 // Handle invalid item parameter
                 break;

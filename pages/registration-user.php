@@ -152,6 +152,23 @@ if (isset($_POST['add'])) {
             <label for="name" class="form-label">Name <span>*</span></label>
             <input name="name" type="text" class="form-control" id="name" required>
         </div>
+        
+    </div>
+    <div class="d-flex">
+    <div class="col-4">
+        <div data-mdb-input-init class="form-outline form-white">
+            <!-- Modified file input to trigger onchange event -->
+            <input type="file" name="images" id="img" class="form-control form-control-lg"
+                onchange="previewImage(event)" />
+            <label class="form-label" for="img">Upload Image</label>
+        </div>
+    </div>
+    <!-- Container for displaying uploaded image -->
+    <div id="imagePreview" class="image-container ms-5">
+        <!-- Initially hidden, shown when an image is selected -->
+        <img id="preview" src="#" alt="Uploaded Image" style="display:none;">
+        <div id="imageName" class="image-name">Image Name</div>
+    </div>
     </div>
     <div class="d-grid gap-2 my-3">
         <button class="btn btn-dark" name="add" type="submit">ADD</button>

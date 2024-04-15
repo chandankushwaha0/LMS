@@ -30,7 +30,7 @@ if(isset($_POST['add'])) {
         ?>
         <script>
             window.addEventListener('load', function() {
-                messagePopupHandle('<div class="text-danger">Your content is not added!!!</div>');
+                messagePopupHandle('Your content is not added!!!');
             })
         </script>
         <?php

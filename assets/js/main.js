@@ -66,7 +66,53 @@ function messagePopupHandle(msg) {
         })
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+    // Get the modal
+    const modal = document.getElementById('confirmation-modal');
+
+    // Get the Yes and No buttons
+    const popupYesButton = document.getElementById('popupYes');
+    const popupNoButton = document.getElementById('popupNo');
+
+    // Add click event listener to each delete button
+    const deleteButtons = document.querySelectorAll('.delete-btn');
+    deleteButtons.forEach(function (button) {
+        button.addEventListener('click', function (event) {
+            // Prevent default behavior of the link
+            event.preventDefault();
+
+            // Show the modal
+            modal.style.display = "block";
+
+            // Get the delete URL
+            const deleteUrl = button.querySelector('a').href;
+
+            // If user clicks Yes, redirect to the delete URL
+            popupYesButton.onclick = function() {
+                window.location.href = deleteUrl;
+            }
+
+            // If user clicks No, close the modal
+            popupNoButton.onclick = function() {
+                modal.style.display = "none";
+            }
+        });
+    });
+
+    // Close the modal when the user clicks anywhere outside of it
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    }
+});
+
+
+
+
 window.addEventListener("load", function() {
     // handleHideShowPassword();
     // messagePopupHandle(msg);
+    // handleEditFormPopup();
+    // handleDeletePopup();
 })

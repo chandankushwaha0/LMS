@@ -20,63 +20,63 @@ if (isset($_POST['save'])) {
     $phone = $dataValidator->validateData($_POST['phone']);
 
     // Upload image
-$targetDir = "uploads/";
-$targetFile = $targetDir . basename($_FILES["images"]["name"]);
-$uploadOk = 1;
-$imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+    $targetDir = "uploads/";
+    $targetFile = $targetDir . basename($_FILES["images"]["name"]);
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
 
-// Check if image file is a actual image or fake image
-$check = getimagesize($_FILES["images"]["tmp_name"]);
-if ($check === false) {
-    echo "File is not an image.";
-    $uploadOk = 0;
-}
+    // Check if image file is a actual image or fake image
+    $check = getimagesize($_FILES["images"]["tmp_name"]);
+    if ($check === false) {
+        echo "File is not an image.";
+        $uploadOk = 0;
+    }
 
-// Check file size
-if ($_FILES["images"]["size"] > 2000000) { // 2MB
-    echo "Sorry, your file is too large.";
-    $uploadOk = 0;
-}
+    // Check file size
+    if ($_FILES["images"]["size"] > 2000000) { // 2MB
+        echo "Sorry, your file is too large.";
+        $uploadOk = 0;
+    }
 
-// Allow certain file formats
-$allowedExtensions = array("jpg", "jpeg", "png", "gif");
-if (!in_array($imageFileType, $allowedExtensions)) {
-    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-    $uploadOk = 0;
-}
+    // Allow certain file formats
+    $allowedExtensions = array("jpg", "jpeg", "png", "gif");
+    if (!in_array($imageFileType, $allowedExtensions)) {
+        echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+        $uploadOk = 0;
+    }
 
-// Check if $uploadOk is set to 0 by an error
-if ($uploadOk == 0) {
-    echo "Sorry, your file was not uploaded.";
-} else {
-    // if everything is ok, try to upload file
-    if (move_uploaded_file($_FILES["images"]["tmp_name"], $targetFile)) {
-        // Insert data into database
-        $sql = "INSERT INTO teachers (name, faculty, subject, semester, email, phone, gender, address, images)
+    // Check if $uploadOk is set to 0 by an error
+    if ($uploadOk == 0) {
+        echo "Sorry, your file was not uploaded.";
+    } else {
+        // if everything is ok, try to upload file
+        if (move_uploaded_file($_FILES["images"]["tmp_name"], $targetFile)) {
+            // Insert data into database
+            $sql = "INSERT INTO teachers (name, faculty, subject, semester, email, phone, gender, address, images)
                 VALUES ('{$name}', '{$faculty}', '{$subject}', '{$semester}', '{$email}', '{$phone}', '{$gender}', '{$address}', '{$targetFile}' )";
 
-// echo $sql;
-        if (mysqli_query($conn, $sql)) {
-            ?>
-            <script>
-                window.addEventListener("load", function() {
-                    messagePopupHandle("Register Successfully!!!");
-                })
-            </script>
-            <?php
+            // echo $sql;
+            if (mysqli_query($conn, $sql)) {
+                ?>
+                <script>
+                    window.addEventListener("load", function () {
+                        messagePopupHandle("Register Successfully!!!");
+                    })
+                </script>
+                <?php
+            } else {
+                ?>
+                <script>
+                    window.addEventListener("load", function () {
+                        messagePopupHandle("Register Failed!!");
+                    })
+                </script>
+                <?php
+            }
         } else {
-            ?>
-            <script>
-                window.addEventListener("load", function() {
-                    messagePopupHandle("Register Failed!!");
-                })
-            </script>
-            <?php
+            echo "Sorry, there was an error uploading your file.";
         }
-    } else {
-        echo "Sorry, there was an error uploading your file.";
     }
-}
 }
 
 
@@ -123,32 +123,7 @@ if ($uploadOk == 0) {
         color: #fff;
     }
 
-    .image-container {
-        border: 2px solid #ccc;
-        padding: 10px;
-        width: 200px;
-        height: 200px;
-        position: relative;
-        overflow: hidden;
-        display: inline-block;
-    }
-
-    .image-container img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .image-name {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background-color: rgba(0, 0, 0, 0.7);
-        color: #fff;
-        padding: 5px;
-        text-align: center;
-    }
+    
 </style>
 
 <div class="popup d-none ">
@@ -228,20 +203,20 @@ if ($uploadOk == 0) {
         </div>
     </div>
     <div class="d-flex">
-    <div class="col-4">
-        <div data-mdb-input-init class="form-outline form-white">
-            <!-- Modified file input to trigger onchange event -->
-            <input type="file" name="images" id="img" class="form-control form-control-lg"
-                onchange="previewImage(event)" />
-            <label class="form-label" for="img">Upload Image</label>
+        <div class="col-4">
+            <div data-mdb-input-init class="form-outline form-white">
+                <!-- Modified file input to trigger onchange event -->
+                <input type="file" name="images" id="img" class="form-control form-control-lg"
+                    onchange="previewImage(event)" />
+                <label class="form-label" for="img">Upload Image</label>
+            </div>
         </div>
-    </div>
-    <!-- Container for displaying uploaded image -->
-    <div id="imagePreview" class="image-container ms-5">
-        <!-- Initially hidden, shown when an image is selected -->
-        <img id="preview" src="#" alt="Uploaded Image" style="display:none;">
-        <div id="imageName" class="image-name">Image Name</div>
-    </div>
+        <!-- Container for displaying uploaded image -->
+        <div id="imagePreview" class="image-container ms-5">
+            <!-- Initially hidden, shown when an image is selected -->
+            <img id="preview" src="#" alt="Uploaded Image" style="display:none;">
+            <div id="imageName" class="image-name">Image Name</div>
+        </div>
     </div>
     <div class="d-grid gap-2 my-3">
         <button class="btn btn-dark" name="save" type="submit">ADD</button>
