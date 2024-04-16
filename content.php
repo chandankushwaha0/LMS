@@ -58,14 +58,24 @@
                 include_once ("pages/all-teachers.php");
                 break;
 
+            case 'courses':
+                include_once("pages/courses.php");
+                break;
+
             case 'edit-teachers':
                 include_once ("edit_page/edit-teachers.php");
+                break;
+
+            case 'edit-courses':
+                include_once ("edit_page/edit-courses.php");
                 break;
 
             case 'delete-teachers':
                 include_once ("delete/delete-teachers.php");
                 break;
 
+            
+            
             default:
                 // Handle invalid item parameter
                 break;

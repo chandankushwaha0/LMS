@@ -92,7 +92,7 @@ if (mysqli_num_rows($result) > 0) {
                         <a href="./dashboard.php?item=edit-teachers&id=<?php echo $row['teachers_id']; ?>"
                             class="text-light">Edit</a>
                     </button>
-                    <button class="edit-btn btn btn-primary mt-2 delete-btn">
+                    <button class="edit-btn btn btn-danger mt-2 delete-btn">
                         <a href="./dashboard.php?item=delete-teachers&id=<?php echo $row['teachers_id']; ?>"
                             class="text-light">Delete</a>
                     </button>

@@ -20,6 +20,9 @@
             <li>
                 <a href="./dashboard.php?item=all-teachers">Teachers</a>
             </li>
+            <li>
+                <a href="./dashboard.php?item=courses">Add Courses</a>
+            </li>
         </ul>
     </div>
 </div>
