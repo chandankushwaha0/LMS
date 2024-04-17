@@ -23,6 +23,12 @@
             <li>
                 <a href="./dashboard.php?item=courses">Add Courses</a>
             </li>
+            <li>
+                <a href="./dashboard.php?item=semester">Add Semester</a>
+            </li>
+            <li>
+                <a href="./dashboard.php?item=faculty">Add Faculty</a>
+            </li>
         </ul>
     </div>
 </div>

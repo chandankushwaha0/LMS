@@ -62,6 +62,14 @@
                 include_once("pages/courses.php");
                 break;
 
+            case 'semester':
+                include_once("pages/add-semester.php");
+                break;
+
+            case 'faculty':
+                include_once("pages/add-faculty.php");
+                break;
+
             case 'edit-teachers':
                 include_once ("edit_page/edit-teachers.php");
                 break;

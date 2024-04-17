@@ -9,39 +9,39 @@ if (isset($_POST['add'])) {
 
     // Validate and sanitize form data
     $faculty = isset($_POST['faculty']) ? $dataValidator->validateData($_POST['faculty']) : '';
-    $semester = isset($_POST['semester']) ? $dataValidator->validateData($_POST['faculty']) : '';
-    $subjects = isset($_POST['subjects']) ? $dataValidator->validateData($_POST['subjects']) : ''; 
+    $semester = isset($_POST['semester']) ? $dataValidator->validateData($_POST['semester']) : '';
+    $subjects = isset($_POST['subjects']) ? $dataValidator->validateData($_POST['subjects']) : '';
 
-    
-        $sql = "INSERT INTO courses(faculty, semester, subject ) 
+
+    $sql = "INSERT INTO courses(faculty, semester, subject ) 
                 VALUES ( '{$faculty}', '{$semester}', '{$subjects}')";
 
-        $result = mysqli_query($conn, $sql);
+    $result = mysqli_query($conn, $sql);
 
-        if ($result) {
-            ?>
-            <script>
-                window.addEventListener('load', function () {
-                    messagePopupHandle('Courses Added Successfully');
-                })
-            </script>
-            <?php
-        } else {
+    if ($result) {
+        ?>
+        <script>
+            window.addEventListener('load', function () {
+                messagePopupHandle('Courses Added Successfully');
+            })
+        </script>
+        <?php
+    } else {
         //     ?>
-            <script>
-                window.addEventListener('load', function () {
-                    <?php
-                    foreach ($error_msg as $error) {
-                        ?>
-                        messagePopupHandle(<?php echo $error; ?>);
-                        <?php
-                    }
+        <script>
+            window.addEventListener('load', function () {
+                <?php
+                foreach ($error_msg as $error) {
                     ?>
-                })
-            </script>
-            <?php
-        }
+                    messagePopupHandle(<?php echo $error; ?>);
+                    <?php
+                }
+                ?>
+            })
+        </script>
+        <?php
     }
+}
 
 ?>
 
@@ -107,9 +107,22 @@ if (isset($_POST['add'])) {
         right: 0;
         top: 0;
     }
-    #subjectListContainer{
+
+    #subjectListContainer {
         background-color: #fff;
         padding: 10px;
+    }
+
+    td {
+        font-size: 16px;
+    }
+
+    td p {
+        padding-top: 15px;
+    }
+
+    td button a {
+        text-decoration: none;
     }
 </style>
 
@@ -159,7 +172,8 @@ if (isset($_POST['add'])) {
         </div>
         <div class="mb-3">
             <div class="mb-3 ">
-                <label for="subject" class="form-label">Subject Name <span>*</span></label>
+                <label for="subject" class="form-label">Subject Name <span>*</span><span class="text-primary">(Press
+                        Enter to add)</span></label>
                 <input name="subject" type="text" class="form-control" id="subjectInput">
             </div>
         </div>
@@ -172,26 +186,11 @@ if (isset($_POST['add'])) {
             <div id="subjectListContainer"></div> <!-- Container for subject list -->
         </div>
     </div>
-        <div class="d-grid gap-2 my-3">
-            <button class="btn btn-dark" name="add" type="submit">ADD</button>
-        </div>
+    <div class="d-grid gap-2 my-3">
+        <button class="btn btn-dark" name="add" type="submit">ADD</button>
+    </div>
 </form>
 
-
-<style>
-
-    td {
-        font-size: 16px;
-    }
-
-    td p {
-        padding-top: 15px;
-    }
-
-    td button a {
-        text-decoration: none;
-    }
-</style>
 
 
 <div class="search-box py-3">
@@ -221,9 +220,9 @@ if (mysqli_num_rows($result1) > 0) {
 
 
     ?>
-<div class="table-headin text-left  text-dark">
-    <h3 class="text-bold">Courses List</h3>
-</div>
+    <div class="table-headin text-left  text-dark">
+        <h3 class="text-bold">Courses List</h3>
+    </div>
     <table id="smsTable" class="table table-striped table-hover">
         <tr>
             <th>Faculty</th>
@@ -245,12 +244,12 @@ if (mysqli_num_rows($result1) > 0) {
                 <td>
                     <?php
                     $sub = $row['subject'];
-                    $sub_array = explode(",", $sub );
+                    $sub_array = explode(",", $sub);
                     $result = "";
-                    foreach( $sub_array as  $number => $subject ) {
-                        $result .= " " . " ". ( $number + 1 ).".". $subject ."</br>" ;
+                    foreach ($sub_array as $number => $subject) {
+                        $result .= " " . " " . ($number + 1) . "." . $subject . "</br>";
                     }
-                    $result  = rtrim( $result , ", ");
+                    $result = rtrim($result, ", ");
                     ?>
                     <p><?php echo $result; ?></p>
                 </td>
@@ -321,83 +320,85 @@ if (mysqli_num_rows($result1) > 0) {
             <?php
         }
         ?>
-
-
-<!-- Confirmation Popup -->
-<div id="confirmation-modal" class="modal">
-    <div class="modal-content">
-        <button class="conf-btn checkbtn"><i class="fa-solid fa-check"></i></button>
-        <h5 id="message" class="py-3 message text-danger">Are you sure you want to delete?</h5>
-        <div class="d-grid gap-2 my-3">
-            <button class="conf-btn popupYes" id="popupYes">Yes</button>
-            <button class="conf-btn popupNo" id="popupNo">No</button>
-        </div>
-    </div>
+    </nav>
 </div>
 
-<!-- SCRIPT FOR ADD SUBJECT LIST -->
-<script>
 
-function updateSubjectsInput() {
-    var subjects = document.getElementsByClassName("added-subject");
-    var subjectValues = [];
-    for (var i = 0; i < subjects.length; i++) {
-        subjectValues.push(subjects[i].textContent.substr(subjects[i].textContent.indexOf(". ") + 2));
-    }
-    document.getElementById("subjectsInput").value = subjectValues.join(",");
-}
+        <!-- Confirmation Popup -->
+        <div id="confirmation-modal" class="modal">
+            <div class="modal-content">
+                <button class="conf-btn checkbtn"><i class="fa-solid fa-check"></i></button>
+                <h5 id="message" class="py-3 message text-danger">Are you sure you want to delete?</h5>
+                <div class="d-grid gap-2 my-3">
+                    <button class="conf-btn popupYes" id="popupYes">Yes</button>
+                    <button class="conf-btn popupNo" id="popupNo">No</button>
+                </div>
+            </div>
+        </div>
 
-function removeSubject(subjectElement) {
-    // Remove event listener before removing the button
-    var removeButton = subjectElement.querySelector('.remove-button');
-    removeButton.removeEventListener('click', removeSubjectHandler);
-    
-    subjectElement.remove();
-    updateSubjectsInput();
-}
+        <!-- SCRIPT FOR ADD SUBJECT LIST -->
+        <script>
 
-function removeSubjectHandler(event) {
-    var subjectLine = event.target.parentElement;
-    removeSubject(subjectLine);
-}
+            function updateSubjectsInput() {
+                var subjects = document.getElementsByClassName("added-subject");
+                var subjectValues = [];
+                for (var i = 0; i < subjects.length; i++) {
+                    subjectValues.push(subjects[i].textContent.substr(subjects[i].textContent.indexOf(". ") + 2));
+                }
+                document.getElementById("subjectsInput").value = subjectValues.join(",");
+            }
 
-document.getElementById("subjectInput").addEventListener("keypress", function (event) {
-    if (event.key === "Enter") {
-        event.preventDefault(); // Prevent form submission
-        var subject = this.value.trim();
-        if (subject !== "") {
-            // Create a <span> element to wrap the added subject line
-            var subjectLine = document.createElement("span");
-            subjectLine.classList.add("added-subject"); // Add the 'added-subject' class
-            subjectLine.textContent = subject;
+            function removeSubject(subjectElement) {
+                // Remove event listener before removing the button
+                var removeButton = subjectElement.querySelector('.remove-button');
+                removeButton.removeEventListener('click', removeSubjectHandler);
 
-            // Create a remove button
-            var removeButton = document.createElement("span");
-            removeButton.classList.add("remove-button");
-            removeButton.textContent = "x";
+                subjectElement.remove();
+                updateSubjectsInput();
+            }
 
-            // Append the remove button to the subject line
-            subjectLine.appendChild(removeButton);
+            function removeSubjectHandler(event) {
+                var subjectLine = event.target.parentElement;
+                removeSubject(subjectLine);
+            }
 
-            // Append the subject line to the subject list container
-            document.getElementById("subjectListContainer").appendChild(subjectLine);
+            document.getElementById("subjectInput").addEventListener("keypress", function (event) {
+                if (event.key === "Enter") {
+                    event.preventDefault(); // Prevent form submission
+                    var subject = this.value.trim();
+                    if (subject !== "") {
+                        // Create a <span> element to wrap the added subject line
+                        var subjectLine = document.createElement("span");
+                        subjectLine.classList.add("added-subject"); // Add the 'added-subject' class
+                        subjectLine.textContent = subject;
 
-            // Update the subjects input field
-            updateSubjectsInput();
+                        // Create a remove button
+                        var removeButton = document.createElement("span");
+                        removeButton.classList.add("remove-button");
+                        removeButton.textContent = "x";
 
-            // Add event listener to dynamically created remove button
-            removeButton.addEventListener('click', removeSubjectHandler);
+                        // Append the remove button to the subject line
+                        subjectLine.appendChild(removeButton);
 
-            this.value = ""; // Clear the input field after adding the subject
-        }
-    }
-});
+                        // Append the subject line to the subject list container
+                        document.getElementById("subjectListContainer").appendChild(subjectLine);
 
-// Add event listener to dynamically created remove buttons
-document.getElementById("subjectListContainer").addEventListener("click", function (event) {
-    if (event.target.classList.contains("remove-button")) {
-        var subjectLine = event.target.parentElement;
-        removeSubject(subjectLine);
-    }
-});
-</script>
+                        // Update the subjects input field
+                        updateSubjectsInput();
+
+                        // Add event listener to dynamically created remove button
+                        removeButton.addEventListener('click', removeSubjectHandler);
+
+                        this.value = ""; // Clear the input field after adding the subject
+                    }
+                }
+            });
+
+            // Add event listener to dynamically created remove buttons
+            document.getElementById("subjectListContainer").addEventListener("click", function (event) {
+                if (event.target.classList.contains("remove-button")) {
+                    var subjectLine = event.target.parentElement;
+                    removeSubject(subjectLine);
+                }
+            });
+        </script>

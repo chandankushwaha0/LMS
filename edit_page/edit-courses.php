@@ -18,8 +18,6 @@ if (isset($_GET['id'])) {
         $subjectArray = isset($_POST['subject']) ? $_POST['subject'] : [];
         $subject = implode(",", $subjectArray);
 
-        echo $subject;
-
         // Update the database
         $sql = "UPDATE courses SET faculty = '{$faculty}', semester = '{$semester}', subject = '{$subject}' WHERE course_id = $id";
 
@@ -100,7 +98,7 @@ if (isset($_GET['id'])) {
                     </div>
                 </div>
                 <div class="go-back">
-                    <button class="btn btn-primary"><a href="dashboard.php?item=all-teachers" class="text-light text-decoration-none">Go Back</a></button>
+                    <button class="btn btn-primary"><a href="dashboard.php?item=courses" class="text-light text-decoration-none">Go Back</a></button>
                 </div>
                 <form action="" method="POST" enctype="multipart/form-data">
                     <div class="d-flex justify-content-between">
@@ -117,7 +115,7 @@ if (isset($_GET['id'])) {
                             <label for="chapter" class="form-label">Choose Semester </label>
                             <select name="semester" class="form-select" aria-label="Default select example">
                                 <option selected disabled>Select Semester</option>
-                                <option value="<?php echo  $rows1['semester']; ?>"><?php echo  $rows1['semester']; ?></option>
+                                <option <?php echo ($rows1['semester'] == 'male' ? 'selected' : ''); ?> value="<?php echo  $rows1['semester']; ?>"><?php echo  $rows1['semester']; ?></option>
                             </select>
                         </div>
                         <div class="mb-3 col-6">
