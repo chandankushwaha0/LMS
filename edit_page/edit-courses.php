@@ -12,7 +12,9 @@ if (isset($_GET['id'])) {
 
         // Validate and sanitize form data
         $faculty = $dataValidator->validateData($_POST['faculty']);
-        $semester = $dataValidator->validateData($_POST['semester']);
+
+        
+        $semester = isset($_POST['semester']) ? $dataValidator->validateData($_POST['semester']) : '';
         
         // Combine all subjects into a comma-separated string
         $subjectArray = isset($_POST['subject']) ? $_POST['subject'] : [];
@@ -104,20 +106,30 @@ if (isset($_GET['id'])) {
                     <div class="d-flex justify-content-between">
                         <div class="mb-3">
                             <label for="chapter" class="form-label">Choose Faculty</label>
-                            <select name="faculty" class="form-select" aria-label="Default select example">
-                                <option disabled selected>Select Faculty</option>
-                                <option value="BCA">BCA</option>
-                                <option value="BHM">BHM</option>
-                                <option value="MBA">MBA</option>
-                            </select>
+                            <select name="faculty" id="faculty" class="form-select" aria-label="Default select example" required>
+                <option selected disabled>Select Faculty</option>
+                <!-- Populate options dynamically using PHP -->
+                <?php
+                // Assuming $conn is your database connection
+                $sql3 = "SELECT faculty_name FROM faculty";
+                $result3 = mysqli_query($conn, $sql3);
+                if (mysqli_num_rows($result3) > 0) {
+                    while ($row3 = mysqli_fetch_assoc($result3)) {
+                        ?>
+                        <option <?php  echo ( $row3['faculty_name'] ) == $rows1['faculty'] ? 'selected' : ''; ?> value="<?php echo $row3['faculty_name'] ?>"><?php echo $row3['faculty_name'] ?></option>
+                        <?php
+                    }
+                }
+                ?>
+            </select>
                         </div>
-                        <div class="mb-3">
-                            <label for="chapter" class="form-label">Choose Semester </label>
-                            <select name="semester" class="form-select" aria-label="Default select example">
-                                <option selected disabled>Select Semester</option>
-                                <option <?php echo ($rows1['semester'] == 'male' ? 'selected' : ''); ?> value="<?php echo  $rows1['semester']; ?>"><?php echo  $rows1['semester']; ?></option>
-                            </select>
-                        </div>
+                        <div>
+            <label for="semester" class="form-label">Choose Semester <span class="text-primary">(If no semester then
+                    leave blank)</span></label>
+            <select name="semester" id="semester" class="form-select" aria-label="Default select example" required>
+                <option selected disabled>Select Semester</option>
+            </select>
+        </div>
                         <div class="mb-3 col-6">
                             <label for="chapter" class="form-label">Subjects</label><br>
                             <?php
@@ -142,3 +154,66 @@ if (isset($_GET['id'])) {
         </div>
     <?php }
 } ?>
+
+
+
+<script>
+    // for fetch semester related to faculty
+
+    // Add event listener to the faculty select element
+    document.getElementById("faculty").addEventListener("change", function () {
+        // Get the selected faculty value
+        var faculty = this.value;
+
+        // Get the semester select element
+        var semesterSelect = document.getElementById("semester");
+
+        // Clear existing options
+        semesterSelect.innerHTML = '<option selected disabled>Select Semester</option>';
+
+        // Make an AJAX request to fetch related semesters
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    // Parse the response as JSON
+                    var semesterData = JSON.parse(xhr.responseText);
+
+                    // Check if semesterData is an array
+                    if (Array.isArray(semesterData)) {
+                        // Iterate over each semester in the array
+                        semesterData.forEach(function (semester) {
+                            // Trim any leading or trailing whitespace
+                            var trimmedSemester = semester.trim();
+
+                            // Split the semester data into individual years
+                            var years = trimmedSemester.split(',');
+
+                            // Iterate over each year and create an option element for it
+                            years.forEach(function (year) {
+                                var trimmedYear = year.trim();
+
+                                // Create an option element
+                                var option = document.createElement("option");
+
+                                // Set the value and text content of the option
+                                option.value = trimmedYear;
+                                option.textContent = trimmedYear;
+
+                                // Append the option to the select element
+                                semesterSelect.appendChild(option);
+                            });
+                        });
+                    } else {
+                        console.error('Semester data is not in the expected format');
+                    }
+                } else {
+                    console.error('Error fetching semesters');
+                }
+            }
+        };
+        // Replace "get_semesters.php" with the path to your server-side script
+        xhr.open("GET", "pages/get_semesters.php?faculty=" + encodeURIComponent(faculty), true);
+        xhr.send();
+    });
+</script>

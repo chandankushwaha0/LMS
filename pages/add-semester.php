@@ -127,7 +127,7 @@ if (isset($_POST['add'])) {
     </div>
 </div>
 <div class="table-headin text-left  text-dark">
-    <h3 class="text-bold">Add New Courses</h3>
+    <h3 class="text-bold">Add New Semester</h3>
 </div>
 <form action="" method="POST">
 
@@ -143,7 +143,7 @@ if (isset($_POST['add'])) {
                 if( mysqli_num_rows( $res ) > 0 ) {
                     while( $rows2 = mysqli_fetch_assoc( $res ) ) {
                         ?>
-                        <option value="<?php echo $rows2['faculty_name']; ?>"><?php echo $rows2['faculty_name']; ?></option>
+                        <option class="text-uppercase" value="<?php echo $rows2['faculty_name']; ?>"><?php echo $rows2['faculty_name']; ?></option>
                         <?php
                     }
                 }
@@ -177,7 +177,7 @@ if (isset($_POST['add'])) {
 <?php
 include ('config.php');
 
-$limit = 10;
+$limit = 5;
 
 if (isset($_GET['page'])) {
     $page = $_GET['page'];
@@ -227,11 +227,11 @@ if (mysqli_num_rows($result1) > 0) {
                 </td>
                 <td class="">
                     <button class="edit-btn btn btn-primary mt-2">
-                        <a href="./dashboard.php?item=edit-courses&id=<?php echo $row['semester_id']; ?>"
+                        <a href="./dashboard.php?item=edit-semester&id=<?php echo $row['semester_id']; ?>"
                             class="text-light">Edit</a>
                     </button>
                     <button class="edit-btn btn btn-danger mt-2 delete-btn">
-                        <a href="./dashboard.php?item=delete-courses&id=<?php echo $row['semester_id']; ?>"
+                        <a href="./dashboard.php?item=delete-semester&id=<?php echo $row['semester_id']; ?>"
                             class="text-light">Delete</a>
                     </button>
                 </td>
@@ -295,13 +295,32 @@ if (mysqli_num_rows($result1) > 0) {
     </nav>
 </div>
 <!-- SCRIPT FOR ADD SUBJECT LIST -->
-<script>
 
-function updateSubjectsInput() {
+<!-- Confirmation Popup -->
+<div id="confirmation-modal" class="modal">
+    <div class="modal-content">
+        <button class="conf-btn checkbtn"><i class="fa-solid fa-check"></i></button>
+        <h5 id="message" class="py-3 message text-center text-danger">Are you sure you want to delete?</h5>
+        <div class="d-grid gap-2 my-3">
+            <button class="conf-btn btn-danger popupYes" id="popupYes">Yes</button>
+            <button class="conf-btn popupNo" id="popupNo">No</button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function updateSubjectsInput() {
     var subjects = document.getElementsByClassName("added-subject");
     var subjectValues = [];
     for (var i = 0; i < subjects.length; i++) {
-        subjectValues.push(subjects[i].textContent.substr(subjects[i].textContent.indexOf(". ") + 2));
+        // Extract the subject without modification
+        // Remove the "x" from the end of the subject before adding it to the array
+        var subjectText = subjects[i].textContent.trim();
+        if (subjectText.endsWith("x")) {
+            subjectText = subjectText.substring(0, subjectText.length - 1);
+        }
+        subjectValues.push(subjectText);
     }
     document.getElementById("subjectsInput").value = subjectValues.join(",");
 }
@@ -328,6 +347,7 @@ document.getElementById("subjectInput").addEventListener("keypress", function (e
             // Create a <span> element to wrap the added subject line
             var subjectLine = document.createElement("span");
             subjectLine.classList.add("added-subject"); // Add the 'added-subject' class
+            // Display the subject as entered by the user without modification
             subjectLine.textContent = subject;
 
             // Create a remove button

@@ -1,4 +1,4 @@
-<div class="menu">
+<div class="menu sticky-top">
     <div class="logo">
         <h2 class="text-center px-5"><a href="./dashboard.php">YETI</a></h2>
         <hr>

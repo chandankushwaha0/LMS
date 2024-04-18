@@ -9,7 +9,7 @@ if (isset($_POST['add'])) {
 
     // Validate and sanitize form data
     $faculty = isset($_POST['faculty']) ? $dataValidator->validateData($_POST['faculty']) : '';
-    
+    $faculty = strtoupper( $faculty );
     
     $sql = "INSERT INTO faculty(faculty_name) 
                 VALUES ( '{$faculty}')";
@@ -109,7 +109,7 @@ $result = mysqli_query($conn, $sql);
         <div class="mb-3 col-9">
             <div class="mb-3 ">
                 <label for="subject" class="form-label">Faculty <span>*</span></label>
-                <input name="faculty" type="text" class="form-control" id="subjectInput">
+                <input name="faculty" type="text" class="form-control text-uppercase" id="subjectInput">
             </div>
         </div>
     </div>
@@ -161,7 +161,7 @@ if (mysqli_num_rows($result1) > 0) {
             ?>
             <tr class="fs-5">
                 <td><?php echo $i  ; ?></td>
-                <td>
+                <td class="text-uppercase">
                     <?php echo $row['faculty_name']; ?>
                 </td>
                 <td class="">
@@ -235,3 +235,15 @@ if (mysqli_num_rows($result1) > 0) {
     </nav>
 </div>
 
+
+<!-- Confirmation Popup -->
+<div id="confirmation-modal" class="modal">
+    <div class="modal-content">
+        <button class="conf-btn checkbtn"><i class="fa-solid fa-check"></i></button>
+        <h5 id="message" class="py-3 message text-center text-danger">Are you sure you want to delete?</h5>
+        <div class="d-grid gap-2 my-3">
+            <button class="conf-btn btn-danger popupYes" id="popupYes">Yes</button>
+            <button class="conf-btn popupNo" id="popupNo">No</button>
+        </div>
+    </div>
+</div>

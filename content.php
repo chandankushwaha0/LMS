@@ -78,8 +78,28 @@
                 include_once ("edit_page/edit-courses.php");
                 break;
 
+            case 'edit-semester':
+                include_once ("edit_page/edit-semester.php");
+                break;
+
+            case 'edit-faculty':
+                include_once ("edit_page/edit-faculty.php");
+                break;
+
             case 'delete-teachers':
                 include_once ("delete/delete-teachers.php");
+                break;
+
+            case 'delete-semester':
+                include_once ("delete/delete-semster.php");
+                break;
+
+            case 'delete-faculty':
+                include_once ("delete/delete-faculty.php");
+                break;
+
+            case 'delete-courses':
+                include_once ("delete/delete-courses.php");
                 break;
 
             

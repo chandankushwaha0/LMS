@@ -160,9 +160,9 @@ if (mysqli_num_rows($result) > 0) {
 <div id="confirmation-modal" class="modal">
     <div class="modal-content">
         <button class="conf-btn checkbtn"><i class="fa-solid fa-check"></i></button>
-        <h5 id="message" class="py-3 message text-danger">Are you sure you want to delete?</h5>
+        <h5 id="message" class="py-3 message text-center text-danger">Are you sure you want to delete?</h5>
         <div class="d-grid gap-2 my-3">
-            <button class="conf-btn popupYes" id="popupYes">Yes</button>
+            <button class="conf-btn btn-danger popupYes" id="popupYes">Yes</button>
             <button class="conf-btn popupNo" id="popupNo">No</button>
         </div>
     </div>
