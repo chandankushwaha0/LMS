@@ -119,22 +119,27 @@ if (isset($_POST['add'])) {
             <input name="student_id" value="<?php echo $next_student_id; ?>" type="text" readonly class="form-control" id="student_id" required>
         </div>
         <div class="mb-3">
-            <label for="chapter" class="form-label">Choose Faculty <span>*</span></label>
-            <select name="faculty" class="form-select" aria-label="Default select example" required>
-                <option disabled selected>Select Faculty</option>
-                <option value="BCA">BCA</option>
-                <option value="BHM">BHM</option>
-                <option value="MBA">MBA</option>
+            <label for="faculty" class="form-label">Choose Programs <span>*</span> </label>
+            <select name="faculty" id="faculty" class="form-select" aria-label="Default select example" required>
+                <option selected disabled>Select Faculty</option>
+                <!-- Populate options dynamically using PHP -->
+                <?php
+                // Assuming $conn is your database connection
+                $sql3 = "SELECT program FROM faculty";
+                $result3 = mysqli_query($conn, $sql3);
+                if (mysqli_num_rows($result3) > 0) {
+                    while ($row3 = mysqli_fetch_assoc($result3)) {
+                        echo '<option value="' . $row3['program'] . '">' . $row3['program'] . '</option>';
+                    }
+                }
+                ?>
             </select>
         </div>
         <div class="mb-3">
-            <label for="chapter" class="form-label">Choose Semester <span>*</span> </label>
-            <select name="semester" class="form-select" aria-label="Default select example" required>
+            <label for="semester" class="form-label">Choose Semester <span class="text-primary">(If no semester then
+                    leave blank)</span></label>
+            <select name="semester" id="semester" class="form-select" aria-label="Default select example">
                 <option selected disabled>Select Semester</option>
-                <option value="One">One</option>
-                <option value="Two">Two</option>
-                <option value="Three">Three</option>
-                <option value="Four">Four</option>
             </select>
         </div>
         <div class="mb-3">
@@ -186,6 +191,65 @@ if (isset($_POST['add'])) {
         }
         return true;
     }
+
+      // for fetch semester related to faculty
+
+    // Add event listener to the faculty select element
+    document.getElementById("faculty").addEventListener("change", function () {
+        // Get the selected faculty value
+        var faculty = this.value;
+
+        // Get the semester select element
+        var semesterSelect = document.getElementById("semester");
+
+        // Clear existing options
+        semesterSelect.innerHTML = '<option selected disabled>Select Semester</option>';
+
+        // Make an AJAX request to fetch related semesters
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    // Parse the response as JSON
+                    var semesterData = JSON.parse(xhr.responseText);
+
+                    // Check if semesterData is an array
+                    if (Array.isArray(semesterData)) {
+                        // Iterate over each semester in the array
+                        semesterData.forEach(function (semester) {
+                            // Trim any leading or trailing whitespace
+                            var trimmedSemester = semester.trim();
+
+                            // Split the semester data into individual years
+                            var years = trimmedSemester.split(',');
+
+                            // Iterate over each year and create an option element for it
+                            years.forEach(function (year) {
+                                var trimmedYear = year.trim();
+
+                                // Create an option element
+                                var option = document.createElement("option");
+
+                                // Set the value and text content of the option
+                                option.value = trimmedYear;
+                                option.textContent = trimmedYear;
+
+                                // Append the option to the select element
+                                semesterSelect.appendChild(option);
+                            });
+                        });
+                    } else {
+                        console.error('Semester data is not in the expected format');
+                    }
+                } else {
+                    console.error('Error fetching semesters');
+                }
+            }
+        };
+        // Replace "get_semesters.php" with the path to your server-side script
+        xhr.open("GET", "pages/get_semesters.php?faculty=" + encodeURIComponent(faculty), true);
+        xhr.send();
+    });
 </script>
 
 <?php

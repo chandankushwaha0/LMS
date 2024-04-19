@@ -134,16 +134,16 @@ if (isset($_POST['add'])) {
 
     <div class="d-flex justify-content-between">
         <div>
-            <label for="chapter" class="form-label">Choose Faculty <span>*</span> </label>
+            <label for="chapter" class="form-label">Choose Programs <span>*</span> </label>
             <select name="faculty" class="form-select" aria-label="Default select example" required>
                 <option selected disabled>Select Faculty</option>
                 <?php
-                $sqls = "SELECT faculty_name FROM faculty";
+                $sqls = "SELECT program FROM faculty";
                 $res = mysqli_query( $conn, $sqls );
                 if( mysqli_num_rows( $res ) > 0 ) {
                     while( $rows2 = mysqli_fetch_assoc( $res ) ) {
                         ?>
-                        <option class="text-uppercase" value="<?php echo $rows2['faculty_name']; ?>"><?php echo $rows2['faculty_name']; ?></option>
+                        <option class="" value="<?php echo $rows2['program']; ?>"><?php echo $rows2['program']; ?></option>
                         <?php
                     }
                 }

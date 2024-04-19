@@ -8,11 +8,13 @@ if (isset($_POST['add'])) {
     $dataValidator = new yetilms\DataValidator($conn); // assuming $conn is your database connection
 
     // Validate and sanitize form data
+    $university = isset($_POST['university']) ? $dataValidator->validateData($_POST['university']) : '';
     $faculty = isset($_POST['faculty']) ? $dataValidator->validateData($_POST['faculty']) : '';
-    $faculty = strtoupper( $faculty );
+    $program = isset($_POST['program']) ? $dataValidator->validateData($_POST['program']) : '';
+    $program = strtoupper( $program );
     
-    $sql = "INSERT INTO faculty(faculty_name) 
-                VALUES ( '{$faculty}')";
+    $sql = "INSERT INTO faculty(affliated_university, faculty_name, program) 
+                VALUES ( '{$university}', '{$faculty}',  '{$program}')";
 
 $result = mysqli_query($conn, $sql);
 
@@ -106,13 +108,26 @@ $result = mysqli_query($conn, $sql);
 
 
     <div class="d-flex justify-content-between">
-        <div class="mb-3 col-9">
+        <div class="mb-3 col-5">
+            <div class="mb-3 ">
+                <label for="subject" class="form-label">Affliated University <span>*</span></label>
+                <input name="university" type="text" class="form-control text-capitalize" id="subjectInput">
+            </div>
+            
+        </div>
+        <div class="mb-3 col-5">
             <div class="mb-3 ">
                 <label for="subject" class="form-label">Faculty <span>*</span></label>
-                <input name="faculty" type="text" class="form-control text-uppercase" id="subjectInput">
+                <input name="faculty" type="text" class="form-control text-capitalize" id="subjectInput">
             </div>
         </div>
     </div>
+    <div class="mb-3 col-5">
+            <div class="mb-3 ">
+                <label for="subject" class="form-label">Program <span>*</span></label>
+                <input name="program" type="text" class="form-control text-uppercase" id="subjectInput">
+            </div>
+        </div>
         <div class="d-grid gap-2 my-3">
             <button class="btn btn-dark" name="add" type="submit">ADD</button>
         </div>
@@ -151,7 +166,9 @@ if (mysqli_num_rows($result1) > 0) {
     <table id="smsTable" class="table table-striped table-hover">
         <tr>
             <th>S.N</th>
+            <th>Affliated University</th>
             <th>Faculty</th>
+            <th>Program</th>
             <th>Actions</th>
         </tr>
         <?php
@@ -161,8 +178,14 @@ if (mysqli_num_rows($result1) > 0) {
             ?>
             <tr class="fs-5">
                 <td><?php echo $i  ; ?></td>
-                <td class="text-uppercase">
+                <td class="">
+                    <?php echo $row['affliated_university']; ?>
+                </td>
+                <td class="">
                     <?php echo $row['faculty_name']; ?>
+                </td>
+                <td class="">
+                    <?php echo $row['program']; ?>
                 </td>
                 <td class="">
                     <button class="edit-btn btn btn-primary mt-2">

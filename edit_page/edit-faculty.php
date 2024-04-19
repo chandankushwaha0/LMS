@@ -13,10 +13,13 @@ if (isset($_GET['id'])) {
         $dataValidator = new yetilms\DataValidator($conn); // assuming $conn is your database connection
 
         // Validate and sanitize form data
+        $university = $dataValidator->validateData($_POST['university']);
         $faculty = $dataValidator->validateData($_POST['faculty']);
+        $program = $dataValidator->validateData($_POST['program']);
+        $program = strtoupper( $program );
 
         // Update the database
-        $sql = "UPDATE faculty SET faculty_name = '{$faculty}' WHERE faculty_id = $id";
+        $sql = "UPDATE faculty SET affliated_university = '{$university}', faculty_name = '{$faculty}', program = '{$program}' WHERE faculty_id = $id";
 
         if (mysqli_query($conn, $sql)) {
             ?>
@@ -100,8 +103,16 @@ if (isset($_GET['id'])) {
                 <form action="" method="POST" enctype="multipart/form-data">
                     <div class="d-flex justify-content-between">
                         <div class="mb-3">
-                            <label for="chapter" class="form-label">Edit Faculty</label></br>
+                            <label for="chapter" class="form-label">Affliated University</label></br>
+                            <input type="text" class="w-100" name="university" value="<?php echo $rows1['affliated_university']; ?>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="chapter" class="form-label">Faculty</label></br>
                             <input type="text" class="w-100" name="faculty" value="<?php echo $rows1['faculty_name']; ?>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="chapter" class="form-label">Program</label></br>
+                            <input type="text" class="w-100" name="program" value="<?php echo $rows1['program']; ?>">
                         </div>
                     </div>
                     <div class="d-grid gap-2 my-3">

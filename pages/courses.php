@@ -146,17 +146,17 @@ if (isset($_POST['add'])) {
 
     <div class="d-flex justify-content-between">
         <div>
-            <label for="faculty" class="form-label">Choose Faculty <span>*</span> </label>
+            <label for="faculty" class="form-label">Choose Programs <span>*</span> </label>
             <select name="faculty" id="faculty" class="form-select" aria-label="Default select example" required>
                 <option selected disabled>Select Faculty</option>
                 <!-- Populate options dynamically using PHP -->
                 <?php
                 // Assuming $conn is your database connection
-                $sql3 = "SELECT faculty_name FROM faculty";
+                $sql3 = "SELECT program FROM faculty";
                 $result3 = mysqli_query($conn, $sql3);
                 if (mysqli_num_rows($result3) > 0) {
                     while ($row3 = mysqli_fetch_assoc($result3)) {
-                        echo '<option value="' . $row3['faculty_name'] . '">' . $row3['faculty_name'] . '</option>';
+                        echo '<option value="' . $row3['program'] . '">' . $row3['program'] . '</option>';
                     }
                 }
                 ?>
@@ -166,7 +166,7 @@ if (isset($_POST['add'])) {
         <div>
             <label for="semester" class="form-label">Choose Semester <span class="text-primary">(If no semester then
                     leave blank)</span></label>
-            <select name="semester" id="semester" class="form-select" aria-label="Default select example" required>
+            <select name="semester" id="semester" class="form-select" aria-label="Default select example" >
                 <option selected disabled>Select Semester</option>
             </select>
         </div>

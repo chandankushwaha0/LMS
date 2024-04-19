@@ -154,9 +154,18 @@ if (isset($_POST['save'])) {
             <label for="chapter" class="form-label">Choose Faculty <span>*</span></label>
             <select name="faculty" class="form-select" aria-label="Default select example" required>
                 <option disabled selected>Select Faculty</option>
-                <option value="BCA">BCA</option>
-                <option value="BHM">BHM</option>
-                <option value="MBA">MBA</option>
+                <?php
+                $sql1 = "SELECT faculty_name FROM faculty";
+                $result1 = mysqli_query( $conn, $sql1 );
+                if( mysqli_num_rows(  $result1 ) > 1 ){
+                    while( $rows1 = mysqli_fetch_assoc( $result1 ) ) {
+                        ?>
+                        <option value="<?php $rows1['faculty_name']; ?>"><?php echo $rows1['faculty_name']; ?></option>
+                        <?php
+                    }
+                }
+                
+                ?>
             </select>
         </div>
         <div class="mb-3">
